@@ -8,11 +8,12 @@ import { ToDoContainer } from "./todocointainer";
 export function Home() {
 	return (
 		<div className="container">
-			<div>
-				<h1>TODO</h1>
-			</div>
-			<div className="container">
-				<ToDoContainer />
+			<h1>todos</h1>
+			<div className="card border-light">
+				<div className="container">
+					<ToDoContainer />
+				</div>
+				<div className="paper" />
 			</div>
 		</div>
 	);
