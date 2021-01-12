@@ -2,15 +2,19 @@ import React from "react";
 
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
+import { ToDoContainer } from "./todocointainer";
 
 //create your first component
 export function Home() {
 	return (
-		<div className="text-center mt-5">
+		<div className="container">
 			<h1>todos</h1>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working
-			</a>
+			<div className="card border-light">
+				<div className="container">
+					<ToDoContainer />
+				</div>
+				<div className="paper" />
+			</div>
 		</div>
 	);
 }
