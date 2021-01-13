@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 
 import "../../styles/todocontainer.scss";
@@ -19,13 +19,15 @@ export const ToDoContainer = () => {
 		setArrayTasks([task, ...arrayTasks]);
 		setTask("");
 	};
+	var resultArray = [];
 
 	const removeElement = index => {
-		const resultArray = arrayTasks;
+		resultArray = arrayTasks;
 
 		resultArray.splice(index, 1);
-		setArrayTasks(resultArray);
-		console.log(arrayTasks);
+
+		setArrayTasks([...resultArray]);
+
 	};
 
 	const listOfTasks = arrayTasks.map((element, index) => {
@@ -38,9 +40,6 @@ export const ToDoContainer = () => {
 		);
 	});
 
-	// useEffect () = {
-
-	// }
 	return (
 		<div className="form-container">
 			<Form onSubmit={event => handleKeyPress(event)}>
@@ -55,6 +54,9 @@ export const ToDoContainer = () => {
 			</Form>
 
 			<ul className="table"> {listOfTasks} </ul>
+			<div>
+				<p className="task-counter"> {arrayTasks.length} items left </p>
+			</div>
 		</div>
 	);
 };
