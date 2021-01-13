@@ -1,8 +1,6 @@
 import React from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
-import { ToDoContainer } from "./todocointainer";
+import { ToDoContainer } from "./todocontainer";
 
 //create your first component
 export function Home() {
@@ -10,9 +8,10 @@ export function Home() {
 		<div className="container">
 			<h1>todos</h1>
 			<div className="card border-light">
-				<div className="container">
-					<ToDoContainer />
-				</div>
+				<ToDoContainer />
+				{/* <ToDoList /> */}
+				{/* <taskCounter /> */}
+
 				<div className="paper" />
 			</div>
 		</div>
