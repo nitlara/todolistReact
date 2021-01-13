@@ -10,7 +10,7 @@ h1 {
   font-family: 'Rokkitt', serif;
   color: pink;
   opacity: 0.4;
-  font-size:70px;
+  font-size:100px;
 }
 .container {
     margin-top:3em;
@@ -30,17 +30,11 @@ h1 {
     /* The third layer shadow */
     0 20px 1px -9px rgba(0,0,0,0.15);
     /* Padding for demo purposes */
-    padding: 1px;
+    padding: 10px;
+
 }
 
 .card {
      box-shadow: 2px 2px 10px #666;
-}
-.form-group {
-    margin: auto;
-    width: 80%;
-    background-color: green;
-    margin: auto;
-    text-align: left;
 }
 

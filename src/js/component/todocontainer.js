@@ -27,6 +27,7 @@ export const ToDoContainer = () => {
 		resultArray.splice(index, 1);
 
 		setArrayTasks([...resultArray]);
+
 	};
 
 	const listOfTasks = arrayTasks.map((element, index) => {
