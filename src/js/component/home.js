@@ -1,6 +1,8 @@
 import React from "react";
 
 import { ToDoContainer } from "./todocontainer";
+//import { TaskCounter } from "./taskcounter";
+import "../../styles/todocontainer.scss";
 
 //create your first component
 export function Home() {
@@ -10,8 +12,7 @@ export function Home() {
 			<div className="card border-light">
 				<ToDoContainer />
 				{/* <ToDoList /> */}
-				{/* <taskCounter /> */}
-
+				{/* <TaskCounter /> */}
 				<div className="paper" />
 			</div>
 		</div>
