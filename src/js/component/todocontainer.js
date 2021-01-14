@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 
 import "../../styles/todocontainer.scss";
@@ -34,7 +34,11 @@ export const ToDoContainer = () => {
 			<li key={index}>
 				{" "}
 				{element}{" "}
-				<button onClick={() => removeElement(index)}>X</button>
+				<div
+					className="icondelete"
+					onClick={() => removeElement(index)}>
+					<i className="fas fa-times" />
+				</div>
 			</li>
 		);
 	});
