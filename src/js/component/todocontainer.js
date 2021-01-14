@@ -5,30 +5,27 @@ import "../../styles/todocontainer.scss";
 import "bootstrap";
 
 export const ToDoContainer = () => {
+	//UseState de tareas y el cambio de tareas
 	const [task, setTask] = useState("");
-
-	//Array para "depositar" las tareas, hay que hacer 1) .map, para añadir al array,
-	//2).unshift/.splice/ para añadir al ppio
-	//3).splice o .slice para eliminar?? hay que indicar posicion a eliminar con el index
-
+	//UseState del array de tareas que necesitamos para visualizar y contar.
 	const [arrayTasks, setArrayTasks] = useState([]);
 
-	//Funcion creacion de array con "task", e Input a "blank".
+	//Evento (pulsar enter) que nos permite guardar array
 	const handleKeyPress = event => {
 		event.preventDefault();
+		//desestructuración:La sintaxis de desestructuración es una expresión de JavaScript que
+		//permite desempacar valores de arreglos o propiedades de objetos en distintas variables.
 		setArrayTasks([task, ...arrayTasks]);
 		setTask("");
 	};
 	var resultArray = [];
-
+	//función para eliminar elementos
 	const removeElement = index => {
 		resultArray = arrayTasks;
-
 		resultArray.splice(index, 1);
-
 		setArrayTasks([...resultArray]);
 	};
-
+	//map para recorrer el array
 	const listOfTasks = arrayTasks.map((element, index) => {
 		return (
 			<li key={index}>
@@ -42,7 +39,10 @@ export const ToDoContainer = () => {
 			</li>
 		);
 	});
-
+	//formulario
+	//incluye un onChange
+	//Genera la lista de tareas que viene dada del map de arrayTasks
+	//Cuenta el length del array
 	return (
 		<div className="form-container">
 			<Form onSubmit={event => handleKeyPress(event)}>
