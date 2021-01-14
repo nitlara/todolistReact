@@ -1,6 +1,5 @@
 import React from "react";
-import ToDoContainer from "./todocontainer";
-import "../../styles/todocontainer.scss";
+import "../../styles/footercounter.scss";
 import "bootstrap";
 
 export const TaskCounter = () => {

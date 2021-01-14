@@ -27,7 +27,6 @@ export const ToDoContainer = () => {
 		resultArray.splice(index, 1);
 
 		setArrayTasks([...resultArray]);
-
 	};
 
 	const listOfTasks = arrayTasks.map((element, index) => {
@@ -35,7 +34,11 @@ export const ToDoContainer = () => {
 			<li key={index}>
 				{" "}
 				{element}{" "}
-				<button onClick={() => removeElement(index)}>X</button>
+				<div
+					ClassName="icondelete"
+					onClick={() => removeElement(index)}>
+					<i className="fas fa-times" />
+				</div>
 			</li>
 		);
 	});
