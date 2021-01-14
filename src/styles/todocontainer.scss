@@ -1,6 +1,7 @@
 
 .form-container{
     margin-top: 40px;
+    margin-left: 40px;
     border:0px;
 }
 .form-group {
@@ -10,17 +11,19 @@
 }
 
 .task-counter{
-    margin-top: 30px;
-    margin-bottom: 5px;
-    text-align: start;}
-
+    margin:auto;
+    margin-left:15px;
+    font-family: 'Rokkitt', serif;
+    font-size:20px;
+    text-align: left;
+}
 
 .form-control{
     border: 0px;
     border-radius: 0px;
     font-family: 'Rokkitt', serif;
     font-size:20px;
-    focus-visible: none; 
+  
 }
 
 li{
@@ -28,22 +31,16 @@ li{
     border-color:rgba(128, 128, 128, 0.075);
     border-bottom-width: thin;
     margin:auto;
-    width: 100%;    
+    width: 100%;   
+    margin-left:-26px; 
+    margin-top:5px;
     text-align: left;
     list-style-type:none;
     font-family: 'Rokkitt', serif;
     font-size:20px;
     display: flex;
+    
 }
-.button{
-    justify-content:flex-end;
-    border:none;
-    visibility: hidden;
-  
-  background-color: yellow;
-
-}
-button:hover {
-  visibility:visible;
-
+.icondelete{
+    margin-left: 10px;
 }

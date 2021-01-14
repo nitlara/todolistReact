@@ -34,7 +34,11 @@ export const ToDoContainer = () => {
 			<li key={index}>
 				{" "}
 				{element}{" "}
-				<button onClick={() => removeElement(index)}>X</button>
+				<div
+					ClassName="icondelete"
+					onClick={() => removeElement(index)}>
+					<i className="fas fa-times" />
+				</div>
 			</li>
 		);
 	});
