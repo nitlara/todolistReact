@@ -25,6 +25,7 @@ export const ToDoContainer = () => {
 		resultArray.splice(index, 1);
 		setArrayTasks([...resultArray]);
 	};
+
 	//map para recorrer el array
 	const listOfTasks = arrayTasks.map((element, index) => {
 		return (
@@ -39,10 +40,12 @@ export const ToDoContainer = () => {
 			</li>
 		);
 	});
+
 	//formulario
 	//incluye un onChange
 	//Genera la lista de tareas que viene dada del map de arrayTasks
 	//Cuenta el length del array
+	//!!!!!!-------------PENDIENTE: Añadir el condicional al segundo icondelete para que no aparezca si el length no es mayor a 0-------------!!!!!!
 	return (
 		<div className="form-container">
 			<Form onSubmit={event => handleKeyPress(event)}>
@@ -57,8 +60,14 @@ export const ToDoContainer = () => {
 			</Form>
 
 			<ul className="table"> {listOfTasks} </ul>
-			<div>
+			<div className="d-flex flex-row justify-content-start">
 				<p className="task-counter"> {arrayTasks.length} items left </p>
+				<div className="d-flex">
+					<p className="textremove"> Remove all </p>
+					<div className="icondelete mt-1">
+						<i className="fas fa-times" />
+					</div>
+				</div>
 			</div>
 		</div>
 	);
