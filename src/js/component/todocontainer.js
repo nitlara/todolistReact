@@ -60,11 +60,11 @@ export const ToDoContainer = () => {
 			</Form>
 
 			<ul className="table"> {listOfTasks} </ul>
-			<div className="d-flex flex-row justify-content-start">
+			<div className="d-flex flex-row justify-content-between">
 				<p className="task-counter"> {arrayTasks.length} items left </p>
-				<div className="d-flex">
+				<div className="removeall d-flex mr-4">
 					<p className="textremove"> Remove all </p>
-					<div className="icondelete mt-1">
+					<div className="icondelete mt-1 ml-2">
 						<i className="fas fa-times" />
 					</div>
 				</div>
