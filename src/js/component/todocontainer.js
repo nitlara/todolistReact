@@ -40,8 +40,6 @@ export let ToDoContainer = () => {
 		resultArray = arrayTasks;
 		resultArray = [];
 		setArrayTasks([...resultArray]);
-		console.log(arrayTasks);
-		console.log(resultArray);
 	};
 
 	//map para recorrer el array
