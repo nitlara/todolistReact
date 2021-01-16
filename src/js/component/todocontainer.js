@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 
 import "../../styles/todocontainer.scss";
@@ -10,16 +10,24 @@ export const ToDoContainer = () => {
 	//UseState del array de tareas que necesitamos para visualizar y contar.
 	const [arrayTasks, setArrayTasks] = useState([]);
 
-	//Evento (pulsar enter) que nos permite guardar array
+	//FETCH --> GET
+	useEffect(function() {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/alesanchezr")
+			.then(response => response.json()) // convert to json
+			.then(data => {
+				setArrayTasks(data);
+			})
+			.catch(err => console.log("Request Failed", err)); // Catch errors
+	}, []);
+
+	//Funcion creacion de array con "task", e Input a "blank".
 	const handleKeyPress = event => {
 		event.preventDefault();
-		//desestructuración:La sintaxis de desestructuración es una expresión de JavaScript que
-		//permite desempacar valores de arreglos o propiedades de objetos en distintas variables.
 		setArrayTasks([task, ...arrayTasks]);
 		setTask("");
 	};
 	var resultArray = [];
-	//función para eliminar elementos
+	//ELIMINACION DE ELEMENTOS
 	const removeElement = index => {
 		resultArray = arrayTasks;
 		resultArray.splice(index, 1);
@@ -30,8 +38,7 @@ export const ToDoContainer = () => {
 	const listOfTasks = arrayTasks.map((element, index) => {
 		return (
 			<li key={index}>
-				{" "}
-				{element}{" "}
+				{element.label}
 				<div
 					className="icondelete"
 					onClick={() => removeElement(index)}>
@@ -41,11 +48,35 @@ export const ToDoContainer = () => {
 		);
 	});
 
+	useEffect(
+		function(element) {
+			if (task != "") {
+				fetch(
+					"https://assets.breatheco.de/apis/fake/todos/user/alesanchezr",
+					{
+						method: "PUT",
+						body: JSON.stringify(arrayTasks),
+						headers: { "Content-type": "application/json" }
+					}
+				)
+					.then(response => response.json()) // convert to json
+					.then(data => {
+						setArrayTasks(arrayTasks);
+					})
+					.catch(err => {
+						console.log("Request Failed", err);
+					}); // Catch errors
+			}
+		},
+		[setArrayTasks]
+	);
+
 	//formulario
 	//incluye un onChange
 	//Genera la lista de tareas que viene dada del map de arrayTasks
 	//Cuenta el length del array
 	//!!!!!!-------------PENDIENTE: Añadir el condicional al segundo icondelete para que no aparezca si el length no es mayor a 0-------------!!!!!!
+
 	return (
 		<div className="form-container">
 			<Form onSubmit={event => handleKeyPress(event)}>
