@@ -35,7 +35,7 @@ export let ToDoContainer = () => {
 		setArrayTasks([...resultArray]);
 	};
 
-	//Elimina todos los elementos
+	//Elimina todos los elementos visibles
 	const removeAllElements = index => {
 		resultArray = arrayTasks;
 		resultArray = [];
