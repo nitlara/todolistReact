@@ -10,16 +10,6 @@
     text-align: left;
 }
 
-.task-counter{
-
-    margin:auto;
-    margin-left:15px;
-    font-family: 'Rokkitt', serif;
-    font-size:20px;
-    text-align: left;
-
-}
-
 .form-control{
     border: 0px;
     border-radius: 0px;
@@ -53,3 +43,25 @@ li + .icondelete{
     visibility: hidden;
 }
 
+.task-counter{
+
+    margin:auto;
+    margin-left:15px;
+    margin-right: 5px;
+    font-family: 'Rokkitt', serif;
+    font-size:20px;
+    text-align: left;
+
+}
+
+.removeall{
+font-family: 'Rokkitt', serif;
+    font-size:20px;
+    text-align: left;
+}
+.textremove{
+    margin:auto;
+    margin-left:15px;
+    margin-right: 5px;
+    
+}

@@ -5,14 +5,12 @@ import "../../styles/todocontainer.scss";
 import "bootstrap";
 
 export const ToDoContainer = () => {
+	//UseState de tareas y el cambio de tareas
 	const [task, setTask] = useState("");
-
-	//Array para "depositar" las tareas, hay que hacer 1) .map, para añadir al array,
-	//2).unshift/.splice/ para añadir al ppio
-	//3).splice o .slice para eliminar?? hay que indicar posicion a eliminar con el index
-
+	//UseState del array de tareas que necesitamos para visualizar y contar.
 	const [arrayTasks, setArrayTasks] = useState([]);
 
+	//FETCH --> GET
 	useEffect(function() {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/alesanchezr")
 			.then(response => response.json()) // convert to json
@@ -29,20 +27,18 @@ export const ToDoContainer = () => {
 		setTask("");
 	};
 	var resultArray = [];
-
+	//ELIMINACION DE ELEMENTOS
 	const removeElement = index => {
 		resultArray = arrayTasks;
-
 		resultArray.splice(index, 1);
-
 		setArrayTasks([...resultArray]);
 	};
 
+	//map para recorrer el array
 	const listOfTasks = arrayTasks.map((element, index) => {
 		return (
 			<li key={index}>
-				{" "}
-				{element.label}{" "}
+				{element.label}
 				<div
 					className="icondelete"
 					onClick={() => removeElement(index)}>
@@ -51,6 +47,35 @@ export const ToDoContainer = () => {
 			</li>
 		);
 	});
+
+	useEffect(
+		function(element) {
+			if (task != "") {
+				fetch(
+					"https://assets.breatheco.de/apis/fake/todos/user/alesanchezr",
+					{
+						method: "PUT",
+						body: JSON.stringify(arrayTasks),
+						headers: { "Content-type": "application/json" }
+					}
+				)
+					.then(response => response.json()) // convert to json
+					.then(data => {
+						setArrayTasks(arrayTasks);
+					})
+					.catch(err => {
+						console.log("Request Failed", err);
+					}); // Catch errors
+			}
+		},
+		[setArrayTasks]
+	);
+
+	//formulario
+	//incluye un onChange
+	//Genera la lista de tareas que viene dada del map de arrayTasks
+	//Cuenta el length del array
+	//!!!!!!-------------PENDIENTE: Añadir el condicional al segundo icondelete para que no aparezca si el length no es mayor a 0-------------!!!!!!
 
 	return (
 		<div className="form-container">
@@ -66,8 +91,14 @@ export const ToDoContainer = () => {
 			</Form>
 
 			<ul className="table"> {listOfTasks} </ul>
-			<div>
+			<div className="d-flex flex-row justify-content-between">
 				<p className="task-counter"> {arrayTasks.length} items left </p>
+				<div className="removeall d-flex mr-4">
+					<p className="textremove"> Remove all </p>
+					<div className="icondelete mt-1 ml-2">
+						<i className="fas fa-times" />
+					</div>
+				</div>
 			</div>
 		</div>
 	);
