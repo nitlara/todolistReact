@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-
 import "../../styles/todocontainer.scss";
 import "bootstrap";
+import PropTypes from "prop-types";
 
-export const ToDoContainer = () => {
+export let ToDoContainer = () => {
 	//UseState de tareas y el cambio de tareas
-	const [task, setTask] = useState("");
+	let [task, setTask] = useState("");
 	//UseState del array de tareas que necesitamos para visualizar y contar.
-	const [arrayTasks, setArrayTasks] = useState([]);
+	let [arrayTasks, setArrayTasks] = useState([]);
 
-	//FETCH --> GET
+	//FETCH --> GET --> Get devuelve a (data) los datos que descarga de API con este usuario y los manda a setArrayTasks
+	// setArrayTasks actualiza (useState) el array de tareas.
 	useEffect(function() {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara")
 			.then(response => response.json()) // convert to json
@@ -34,6 +35,15 @@ export const ToDoContainer = () => {
 		setArrayTasks([...resultArray]);
 	};
 
+	//Elimina todos los elementos
+	const removeAllElements = index => {
+		resultArray = arrayTasks;
+		resultArray = [];
+		setArrayTasks([...resultArray]);
+		console.log(arrayTasks);
+		console.log(resultArray);
+	};
+
 	//map para recorrer el array
 	const listOfTasks = arrayTasks.map((element, index) => {
 		return (
@@ -51,24 +61,26 @@ export const ToDoContainer = () => {
 	useEffect(
 		function(element) {
 			if (task != "") {
+				//Si el input de tarea no viene vacío
 				fetch(
 					"https://assets.breatheco.de/apis/fake/todos/user/nitlara",
 					{
 						method: "PUT",
-						body: JSON.stringify(arrayTasks),
+						body: JSON.stringify(listOfTasks),
 						headers: { "Content-type": "application/json" }
 					}
 				)
 					.then(response => response.json()) // convert to json
 					.then(data => {
-						setArrayTasks(arrayTasks);
+						setArrayTasks(listOfTasks); //Mandará a la API como datos actualizar DATA con el Array de tareas
 					})
 					.catch(err => {
 						console.log("Request Failed", err);
 					}); // Catch errors
 			}
 		},
-		[setArrayTasks]
+		[arrayTasks] //No muestra los elementos nuevos, aunque si genera el div porque se muestra la cruz.
+		//Si mandas task (que seria el input ) entra en loop
 	);
 
 	//formulario
@@ -95,7 +107,9 @@ export const ToDoContainer = () => {
 				<p className="task-counter"> {arrayTasks.length} items left </p>
 				<div className="removeall d-flex mr-4">
 					<p className="textremove"> Remove all </p>
-					<div className="icondelete mt-1 ml-2">
+					<div
+						className="icondelete mt-1 ml-2"
+						onClick={() => removeAllElements()}>
 						<i className="fas fa-times" />
 					</div>
 				</div>
