@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 
 import "../../styles/todocontainer.scss";
@@ -12,6 +12,15 @@ export const ToDoContainer = () => {
 	//3).splice o .slice para eliminar?? hay que indicar posicion a eliminar con el index
 
 	const [arrayTasks, setArrayTasks] = useState([]);
+
+	useEffect(function() {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/alesanchezr")
+			.then(response => response.json()) // convert to json
+			.then(data => {
+				setArrayTasks(data);
+			})
+			.catch(err => console.log("Request Failed", err)); // Catch errors
+	}, []);
 
 	//Funcion creacion de array con "task", e Input a "blank".
 	const handleKeyPress = event => {
@@ -33,7 +42,7 @@ export const ToDoContainer = () => {
 		return (
 			<li key={index}>
 				{" "}
-				{element}{" "}
+				{element.label}{" "}
 				<div
 					className="icondelete"
 					onClick={() => removeElement(index)}>
