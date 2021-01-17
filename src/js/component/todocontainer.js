@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-
 import "../../styles/todocontainer.scss";
 import "bootstrap";
+import PropTypes from "prop-types";
 
-export const ToDoContainer = () => {
+export let ToDoContainer = () => {
 	//UseState de tareas y el cambio de tareas
-	const [task, setTask] = useState("");
+	let [task, setTask] = useState("");
 	//UseState del array de tareas que necesitamos para visualizar y contar.
-	const [arrayTasks, setArrayTasks] = useState([]);
+	let [arrayTasks, setArrayTasks] = useState([]);
 
-	//FETCH --> GET
-
+	//FETCH --> GET --> Get devuelve a (data) los datos que descarga de API con este usuario y los manda a setArrayTasks
+	// setArrayTasks actualiza (useState) el array de tareas.
 	useEffect(function() {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/agarzon")
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara")
 			.then(response => response.json()) // convert to json
 			.then(data => {
 				setArrayTasks(data);
@@ -26,19 +26,7 @@ export const ToDoContainer = () => {
 		event.preventDefault();
 		setArrayTasks([task, ...arrayTasks]);
 		setTask("");
-	// 	fetch("https://assets.breatheco.de/apis/fake/todos/user/agarzon", {
-	// 		method: "POST",
-	// 		body: JSON.stringify(arrayTasks),
-	// 		headers: { "Content-type": "application/json" }
-	// 	})
-	// 		.then(response => response.json()) // convert to json
-	// 		.then(data => {
-	// 			setArrayTasks(arrayTasks);
-	// 		})
-	// 		.catch(err => {
-	// 			console.log("Request Failed", err);
-	// 		}); // Catch errors
-	// };
+	};
 	var resultArray = [];
 	//ELIMINACION DE ELEMENTOS
 	const removeElement = index => {
@@ -47,11 +35,18 @@ export const ToDoContainer = () => {
 		setArrayTasks([...resultArray]);
 	};
 
+	//Elimina todos los elementos visibles
+	const removeAllElements = index => {
+		resultArray = arrayTasks;
+		resultArray = [];
+		setArrayTasks([...resultArray]);
+	};
+
 	//map para recorrer el array
-	const listOfTasks = arrayTasks.map((e, index) => {
+	const listOfTasks = arrayTasks.map((element, index) => {
 		return (
 			<li key={index}>
-				{e.label}
+				{element.label}
 				<div
 					className="icondelete"
 					onClick={() => removeElement(index)}>
@@ -62,26 +57,45 @@ export const ToDoContainer = () => {
 	});
 
 	useEffect(
-		function() {
+		function(element) {
 			if (task != "") {
+				//Si el input de tarea no viene vacío
+
+				//¿Hace falta una variable para pasar los valores a la API?
+				// var taskToApi =
+				// 	listOfTasks[
+				// 		{
+				// 			label: task,
+				// 			value: task
+				// 		}
+				// 	];
+
 				fetch(
-					"https://assets.breatheco.de/apis/fake/todos/user/agarzon",
+					"https://assets.breatheco.de/apis/fake/todos/user/nitlara",
 					{
 						method: "PUT",
-						body: JSON.stringify(arrayTasks),
+						body: JSON.stringify(listOfTasks),
 						headers: { "Content-type": "application/json" }
 					}
 				)
 					.then(response => response.json()) // convert to json
 					.then(data => {
-						setArrayTasks(arrayTasks);
+						setArrayTasks(data.label); //Mandará a la API como datos actualizar DATA con el Array de tareas
 					})
+					.then(allRemove => {
+						removeAllElements(); //Envío de la eliminación de todos los archivos a la API???
+					})
+					.then(singleTaskremove => {
+						removeElement(); //Envío de la eliminación de una unica tarea a la API???
+					}) //Hay que hacer llegar cualquier eliminacion a la API, ¿se incluyen ambas funciones en el PUT?
 					.catch(err => {
 						console.log("Request Failed", err);
 					}); // Catch errors
 			}
 		},
-		[setArrayTasks]
+		[task] //No muestra los elementos nuevos, aunque si genera el div porque se muestra la cruz.
+		//ALVARO: con setArrayTasks, mismo efecto, se incluye en div, pero sin el texto.
+		//Si mandas task (que seria el input ) entra en loop
 	);
 
 	//formulario
@@ -108,7 +122,9 @@ export const ToDoContainer = () => {
 				<p className="task-counter"> {arrayTasks.length} items left </p>
 				<div className="removeall d-flex mr-4">
 					<p className="textremove"> Remove all </p>
-					<div className="icondelete mt-1 ml-2">
+					<div
+						className="icondelete mt-1 ml-2"
+						onClick={() => removeAllElements()}>
 						<i className="fas fa-times" />
 					</div>
 				</div>
