@@ -13,7 +13,7 @@ export let ToDoContainer = () => {
 	//FETCH --> GET --> Get devuelve a (data) los datos que descarga de API con este usuario y los manda a setArrayTasks
 	// setArrayTasks actualiza (useState) el array de tareas.
 	useEffect(function() {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara")
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/agarzon")
 			.then(response => response.json()) // convert to json
 			.then(data => {
 				setArrayTasks(data);
@@ -46,7 +46,7 @@ export let ToDoContainer = () => {
 	const listOfTasks = arrayTasks.map((element, index) => {
 		return (
 			<li key={index}>
-				{element.label}
+				{element.value}
 				<div
 					className="icondelete"
 					onClick={() => removeElement(index)}>
@@ -71,7 +71,7 @@ export let ToDoContainer = () => {
 				// 	];
 
 				fetch(
-					"https://assets.breatheco.de/apis/fake/todos/user/nitlara",
+					"https://assets.breatheco.de/apis/fake/todos/user/agarzon",
 					{
 						method: "PUT",
 						body: JSON.stringify(listOfTasks),
@@ -80,7 +80,7 @@ export let ToDoContainer = () => {
 				)
 					.then(response => response.json()) // convert to json
 					.then(data => {
-						setArrayTasks(data.label); //Mandará a la API como datos actualizar DATA con el Array de tareas
+						setArrayTasks(listOfTasks); //Mandará a la API como datos actualizar DATA con el Array de tareas
 					})
 					.then(allRemove => {
 						removeAllElements(); //Envío de la eliminación de todos los archivos a la API???
@@ -93,7 +93,7 @@ export let ToDoContainer = () => {
 					}); // Catch errors
 			}
 		},
-		[task] //No muestra los elementos nuevos, aunque si genera el div porque se muestra la cruz.
+		[arrayTasks] //No muestra los elementos nuevos, aunque si genera el div porque se muestra la cruz.
 		//ALVARO: con setArrayTasks, mismo efecto, se incluye en div, pero sin el texto.
 		//Si mandas task (que seria el input ) entra en loop
 	);
