@@ -11,8 +11,9 @@ export const ToDoContainer = () => {
 	const [arrayTasks, setArrayTasks] = useState([]);
 
 	//FETCH --> GET
+
 	useEffect(function() {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/alesanchezr")
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/agarzon")
 			.then(response => response.json()) // convert to json
 			.then(data => {
 				setArrayTasks(data);
@@ -25,7 +26,19 @@ export const ToDoContainer = () => {
 		event.preventDefault();
 		setArrayTasks([task, ...arrayTasks]);
 		setTask("");
-	};
+	// 	fetch("https://assets.breatheco.de/apis/fake/todos/user/agarzon", {
+	// 		method: "POST",
+	// 		body: JSON.stringify(arrayTasks),
+	// 		headers: { "Content-type": "application/json" }
+	// 	})
+	// 		.then(response => response.json()) // convert to json
+	// 		.then(data => {
+	// 			setArrayTasks(arrayTasks);
+	// 		})
+	// 		.catch(err => {
+	// 			console.log("Request Failed", err);
+	// 		}); // Catch errors
+	// };
 	var resultArray = [];
 	//ELIMINACION DE ELEMENTOS
 	const removeElement = index => {
@@ -35,10 +48,10 @@ export const ToDoContainer = () => {
 	};
 
 	//map para recorrer el array
-	const listOfTasks = arrayTasks.map((element, index) => {
+	const listOfTasks = arrayTasks.map((e, index) => {
 		return (
 			<li key={index}>
-				{element.label}
+				{e.label}
 				<div
 					className="icondelete"
 					onClick={() => removeElement(index)}>
@@ -49,10 +62,10 @@ export const ToDoContainer = () => {
 	});
 
 	useEffect(
-		function(element) {
+		function() {
 			if (task != "") {
 				fetch(
-					"https://assets.breatheco.de/apis/fake/todos/user/alesanchezr",
+					"https://assets.breatheco.de/apis/fake/todos/user/agarzon",
 					{
 						method: "PUT",
 						body: JSON.stringify(arrayTasks),
