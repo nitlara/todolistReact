@@ -24,7 +24,9 @@ export let ToDoContainer = () => {
 	//Funcion creacion de array con "task", e Input a "blank".
 	const handleKeyPress = event => {
 		event.preventDefault();
-		setArrayTasks([task, ...arrayTasks]);
+		var taskElement = { label: task, done: false };
+		setArrayTasks([taskElement, ...arrayTasks]);
+		modifyList([taskElement, ...arrayTasks]);
 		setTask("");
 	};
 	var resultArray = [];
@@ -33,20 +35,20 @@ export let ToDoContainer = () => {
 		resultArray = arrayTasks;
 		resultArray.splice(index, 1);
 		setArrayTasks([...resultArray]);
+		modifyList([...resultArray]);
 	};
 
 	//Elimina todos los elementos visibles
 	const removeAllElements = index => {
-		resultArray = arrayTasks;
-		resultArray = [];
-		setArrayTasks([...resultArray]);
+		setArrayTasks([]);
+		modifyList([]);
 	};
 
 	//map para recorrer el array
 	const listOfTasks = arrayTasks.map((element, index) => {
 		return (
 			<li key={index}>
-				{element.value}
+				{element.label}
 				<div
 					className="icondelete"
 					onClick={() => removeElement(index)}>
@@ -56,47 +58,56 @@ export let ToDoContainer = () => {
 		);
 	});
 
-	useEffect(
-		function(element) {
-			if (task != "") {
-				//Si el input de tarea no viene vacío
+	const modifyList = () => {
+		console.log(arrayTasks, "Hello!!");
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/agarzon", {
+			method: "PUT",
+			body: JSON.stringify(arrayTasks),
+			headers: { "Content-type": "application/json" }
+		})
+			.then(response => response.json()) // convert to json
+			.then(data => {
+				console.log(data);
+			})
+			.catch(err => {
+				console.log("Request Failed", err);
+			}); // Catch errors
+	};
 
-				//¿Hace falta una variable para pasar los valores a la API?
-				// var taskToApi =
-				// 	listOfTasks[
-				// 		{
-				// 			label: task,
-				// 			value: task
-				// 		}
-				// 	];
+	// // useEffect(
+	// 	function modifyList() {
+	// 		if (task != "") {
+	// 			//Si el input de tarea no viene vacío
+	// 			fetch(
+	// 				"https://assets.breatheco.de/apis/fake/todos/user/agarzon",
+	// 				{
+	// 					method: "PUT",
+	// 					body: JSON.stringify(arrayTasks),
+	// 					headers: { "Content-type": "application/json" }
+	// 				}
+	// 			)
+	// 				.then(response => response.json()) // convert to json
+	// 				.then(data => {
+	// 					console.log(data);
+	// 				})
+	// 				.then(allRemove => {
+	// 					removeAllElements(); //Envío de la eliminación de todos los archivos a la API???
+	// 				})
+	// 				.then(singleTaskremove => {
+	// 					removeElement(); //Envío de la eliminación de una unica tarea a la API???
+	// 				}) //Hay que hacer llegar cualquier eliminacion a la API, ¿se incluyen ambas funciones en el PUT?
+	// 				.catch(err => {
+	// 					console.log("Request Failed", err);
+	// 				}); // Catch errors
+	// 		}
+	// 		modifyList();
+	// 	},
+	// 	[arrayTasks]
 
-				fetch(
-					"https://assets.breatheco.de/apis/fake/todos/user/agarzon",
-					{
-						method: "PUT",
-						body: JSON.stringify(listOfTasks),
-						headers: { "Content-type": "application/json" }
-					}
-				)
-					.then(response => response.json()) // convert to json
-					.then(data => {
-						setArrayTasks(listOfTasks); //Mandará a la API como datos actualizar DATA con el Array de tareas
-					})
-					.then(allRemove => {
-						removeAllElements(); //Envío de la eliminación de todos los archivos a la API???
-					})
-					.then(singleTaskremove => {
-						removeElement(); //Envío de la eliminación de una unica tarea a la API???
-					}) //Hay que hacer llegar cualquier eliminacion a la API, ¿se incluyen ambas funciones en el PUT?
-					.catch(err => {
-						console.log("Request Failed", err);
-					}); // Catch errors
-			}
-		},
-		[arrayTasks] //No muestra los elementos nuevos, aunque si genera el div porque se muestra la cruz.
-		//ALVARO: con setArrayTasks, mismo efecto, se incluye en div, pero sin el texto.
-		//Si mandas task (que seria el input ) entra en loop
-	);
+	// 	//No muestra los elementos nuevos, aunque si genera el div porque se muestra la cruz.
+	// 	//ALVARO: con setArrayTasks, mismo efecto, se incluye en div, pero sin el texto.
+	// 	//Si mandas task (que seria el input ) entra en loop
+	// // );
 
 	//formulario
 	//incluye un onChange
