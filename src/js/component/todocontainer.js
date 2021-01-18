@@ -12,15 +12,16 @@ export let ToDoContainer = () => {
 
 	//FETCH --> GET --> Get devuelve a (data) los datos que descarga de API con este usuario y los manda a setArrayTasks
 	// setArrayTasks actualiza (useState) el array de tareas.
+
 	useEffect(function() {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/agarzon")
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara")
 			.then(response => response.json()) // convert to json
 			.then(data => {
 				setArrayTasks(data);
 			})
 			.catch(err => console.log("Request Failed", err)); // Catch errors
 	}, []);
-
+	console.log(arrayTasks);
 	//Funcion creacion de array con "task", e Input a "blank".
 	const handleKeyPress = event => {
 		event.preventDefault();
@@ -40,8 +41,12 @@ export let ToDoContainer = () => {
 
 	//Elimina todos los elementos visibles
 	const removeAllElements = index => {
-		setArrayTasks([]);
-		modifyList([]);
+		resultArray = [""];
+		//resultArray = ["All elements are done"];
+		setArrayTasks([...resultArray]);
+		modifyList(["All elements are done"]);
+		// setArrayTasks(["All elements are done!"]);
+		//modifyList(["All elements are done!"]); ////////////////////////////ESTO NO HACE UN PUT VACIO
 	};
 
 	//map para recorrer el array
@@ -59,61 +64,50 @@ export let ToDoContainer = () => {
 	});
 
 	const modifyList = () => {
-		console.log(arrayTasks, "Hello!!");
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/agarzon", {
+		//tener preparado un put, un delete+post, put con mensaje a 0
+		console.log(arrayTasks, "Hello!! estoy haciendo modifyList");
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara", {
 			method: "PUT",
 			body: JSON.stringify(arrayTasks),
 			headers: { "Content-type": "application/json" }
 		})
 			.then(response => response.json()) // convert to json
 			.then(data => {
+				console.log("data");
 				console.log(data);
+				console.log("array tareas");
+				console.log(arrayTasks);
 			})
 			.catch(err => {
 				console.log("Request Failed", err);
 			}); // Catch errors
 	};
 
-	// // useEffect(
-	// 	function modifyList() {
-	// 		if (task != "") {
-	// 			//Si el input de tarea no viene vacío
-	// 			fetch(
-	// 				"https://assets.breatheco.de/apis/fake/todos/user/agarzon",
-	// 				{
-	// 					method: "PUT",
-	// 					body: JSON.stringify(arrayTasks),
-	// 					headers: { "Content-type": "application/json" }
-	// 				}
-	// 			)
-	// 				.then(response => response.json()) // convert to json
-	// 				.then(data => {
-	// 					console.log(data);
-	// 				})
-	// 				.then(allRemove => {
-	// 					removeAllElements(); //Envío de la eliminación de todos los archivos a la API???
-	// 				})
-	// 				.then(singleTaskremove => {
-	// 					removeElement(); //Envío de la eliminación de una unica tarea a la API???
-	// 				}) //Hay que hacer llegar cualquier eliminacion a la API, ¿se incluyen ambas funciones en el PUT?
-	// 				.catch(err => {
-	// 					console.log("Request Failed", err);
-	// 				}); // Catch errors
-	// 		}
-	// 		modifyList();
-	// 	},
-	// 	[arrayTasks]
+	const deleteList = () => {
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
 
-	// 	//No muestra los elementos nuevos, aunque si genera el div porque se muestra la cruz.
-	// 	//ALVARO: con setArrayTasks, mismo efecto, se incluye en div, pero sin el texto.
-	// 	//Si mandas task (que seria el input ) entra en loop
-	// // );
+		var raw = JSON.stringify({ label: "All tasks are done", done: false });
 
+		var requestOptions = {
+			method: "PUT",
+			headers: myHeaders,
+			body: raw,
+			redirect: "follow"
+		};
+
+		fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/nitlara",
+			requestOptions
+		)
+			.then(response => response.text())
+			.then(result => console.log(result))
+			.catch(error => console.log("error", error));
+	};
 	//formulario
 	//incluye un onChange
 	//Genera la lista de tareas que viene dada del map de arrayTasks
 	//Cuenta el length del array
-	//!!!!!!-------------PENDIENTE: Añadir el condicional al segundo icondelete para que no aparezca si el length no es mayor a 0-------------!!!!!!
 
 	return (
 		<div className="form-container">
