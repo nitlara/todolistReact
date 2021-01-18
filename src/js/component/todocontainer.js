@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "../../styles/todocontainer.scss";
 import "bootstrap";
-import PropTypes from "prop-types";
+import PropTypes, { array } from "prop-types";
 
 export let ToDoContainer = () => {
 	//UseState de tareas y el cambio de tareas
@@ -32,19 +32,25 @@ export let ToDoContainer = () => {
 	};
 	var resultArray = [];
 	//ELIMINACION DE ELEMENTOS
-	const removeElement = index => {
+    const removeElement = //si arrayTasks.length >= 1 entonces esto 
+        index => { 
 		resultArray = arrayTasks;
 		resultArray.splice(index, 1);
 		setArrayTasks([...resultArray]);
-		modifyList([...resultArray]);
+        modifyList([...resultArray]);
+        }
+        //si length es menor a 1 --> mensaje.
 	};
 
 	//Elimina todos los elementos visibles
 	const removeAllElements = index => {
-		resultArray = [""];
+		//resultArray = [""];
 		//resultArray = ["All elements are done"];
-		setArrayTasks([...resultArray]);
-		modifyList(["All elements are done"]);
+		//setArrayTasks([...resultArray]);
+        //modifyList(["All elements are done"]);
+        //----> fetch LLAMAR delete
+        //----> fetch LLAMAR POST
+        //----> opción C: llamar post con 1 elemento "all tasks are done"        
 		// setArrayTasks(["All elements are done!"]);
 		//modifyList(["All elements are done!"]); ////////////////////////////ESTO NO HACE UN PUT VACIO
 	};
