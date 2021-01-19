@@ -22,6 +22,7 @@ export let ToDoContainer = () => {
 			.catch(err => console.log("Request Failed", err)); // Catch errors
 	}, []);
 	console.log(arrayTasks);
+
 	//Funcion creacion de array con "task", e Input a "blank".
 	const handleKeyPress = event => {
 		event.preventDefault();
@@ -32,25 +33,24 @@ export let ToDoContainer = () => {
 	};
 	var resultArray = [];
 	//ELIMINACION DE ELEMENTOS
-    const removeElement = //si arrayTasks.length >= 1 entonces esto 
-        index => { 
+	const removeElement = index => {
+		//si arrayTasks.length >= 1 entonces esto
 		resultArray = arrayTasks;
 		resultArray.splice(index, 1);
 		setArrayTasks([...resultArray]);
-        modifyList([...resultArray]);
-        }
-        //si length es menor a 1 --> mensaje.
+		modifyList([...resultArray]);
 	};
+	//si length es menor a 1 --> mensaje.
 
 	//Elimina todos los elementos visibles
 	const removeAllElements = index => {
-		//resultArray = [""];
+		resultArray = [""];
 		//resultArray = ["All elements are done"];
 		//setArrayTasks([...resultArray]);
-        //modifyList(["All elements are done"]);
-        //----> fetch LLAMAR delete
-        //----> fetch LLAMAR POST
-        //----> opción C: llamar post con 1 elemento "all tasks are done"        
+		//modifyList(["All elements are done"]);
+		//----> fetch LLAMAR delete
+		//----> fetch LLAMAR POST
+		//----> opción C: llamar post con 1 elemento "all tasks are done"
 		// setArrayTasks(["All elements are done!"]);
 		//modifyList(["All elements are done!"]); ////////////////////////////ESTO NO HACE UN PUT VACIO
 	};
@@ -89,27 +89,6 @@ export let ToDoContainer = () => {
 			}); // Catch errors
 	};
 
-	const deleteList = () => {
-		var myHeaders = new Headers();
-		myHeaders.append("Content-Type", "application/json");
-
-		var raw = JSON.stringify({ label: "All tasks are done", done: false });
-
-		var requestOptions = {
-			method: "PUT",
-			headers: myHeaders,
-			body: raw,
-			redirect: "follow"
-		};
-
-		fetch(
-			"https://assets.breatheco.de/apis/fake/todos/user/nitlara",
-			requestOptions
-		)
-			.then(response => response.text())
-			.then(result => console.log(result))
-			.catch(error => console.log("error", error));
-	};
 	//formulario
 	//incluye un onChange
 	//Genera la lista de tareas que viene dada del map de arrayTasks
