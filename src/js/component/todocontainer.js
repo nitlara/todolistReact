@@ -2,59 +2,55 @@ import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "../../styles/todocontainer.scss";
 import "bootstrap";
-import PropTypes, { array } from "prop-types";
 
 export let ToDoContainer = () => {
 	//UseState de tareas y el cambio de tareas
 	let [task, setTask] = useState("");
 	//UseState del array de tareas que necesitamos para visualizar y contar.
 	let [arrayTasks, setArrayTasks] = useState([]);
-
 	//FETCH --> GET --> Get devuelve a (data) los datos que descarga de API con este usuario y los manda a setArrayTasks
 	// setArrayTasks actualiza (useState) el array de tareas.
-
 	useEffect(function() {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara")
 			.then(response => response.json()) // convert to json
 			.then(data => {
 				setArrayTasks(data);
 			})
-			.catch(err => console.log("Request Failed", err)); // Catch errors
+			.catch(err => console.log("Request Failed", err)); // Catch errors //aquí también podria venir la generación de la lista.
 	}, []);
 	console.log(arrayTasks);
-
-	//Funcion creacion de array con "task", e Input a "blank".
+	//Funcion creacion de array con "task"
 	const handleKeyPress = event => {
 		event.preventDefault();
 		var taskElement = { label: task, done: false };
 		setArrayTasks([taskElement, ...arrayTasks]);
-		modifyList([taskElement, ...arrayTasks]);
+		modifyList([taskElement, ...arrayTasks]); //no carga todos los elemetnos, le queda pendiente el último.
 		setTask("");
 	};
 	var resultArray = [];
-	//ELIMINACION DE ELEMENTOS
+	//elimina un elemento concreto
 	const removeElement = index => {
-		//si arrayTasks.length >= 1 entonces esto
 		resultArray = arrayTasks;
-		resultArray.splice(index, 1);
-		setArrayTasks([...resultArray]);
-		modifyList([...resultArray]);
+		if (resultArray.length > 0) {
+			resultArray.splice(index, 1);
+			setArrayTasks([...resultArray]);
+			modifyList([...resultArray]);
+		}
+		if (resultArray.length === 0) {
+			resultArray.push("All tasks are done");
+			console.log("resultArraypush" + resultArray);
+			//resultArray.splice(index, 1);
+			setArrayTasks([...resultArray]);
+			deleteList();
+		}
 	};
-	//si length es menor a 1 --> mensaje.
-
 	//Elimina todos los elementos visibles
 	const removeAllElements = index => {
+		//resultArray = arrayTasks;
 		resultArray = [""];
-		//resultArray = ["All elements are done"];
-		//setArrayTasks([...resultArray]);
-		//modifyList(["All elements are done"]);
-		//----> fetch LLAMAR delete
-		//----> fetch LLAMAR POST
-		//----> opción C: llamar post con 1 elemento "all tasks are done"
-		// setArrayTasks(["All elements are done!"]);
-		//modifyList(["All elements are done!"]); ////////////////////////////ESTO NO HACE UN PUT VACIO
+		setArrayTasks([...resultArray]);
+		deleteList([]);
 	};
-
 	//map para recorrer el array
 	const listOfTasks = arrayTasks.map((element, index) => {
 		return (
@@ -68,10 +64,8 @@ export let ToDoContainer = () => {
 			</li>
 		);
 	});
-
+	//API añadir lista.
 	const modifyList = () => {
-		//tener preparado un put, un delete+post, put con mensaje a 0
-		console.log(arrayTasks, "Hello!! estoy haciendo modifyList");
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara", {
 			method: "PUT",
 			body: JSON.stringify(arrayTasks),
@@ -79,10 +73,38 @@ export let ToDoContainer = () => {
 		})
 			.then(response => response.json()) // convert to json
 			.then(data => {
-				console.log("data");
 				console.log(data);
-				console.log("array tareas");
-				console.log(arrayTasks);
+			})
+			.catch(err => {
+				console.log("Request Failed", err);
+			}); // Catch errors
+	};
+	//API eliminar lista.
+	const deleteList = () => {
+		//tener preparado un put, un delete+post, put con mensaje a 0
+
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara", {
+			method: "DELETE", ////////////////////////////////////////////ERROR CONSOLA: Request Failed TypeError: {(intermediate value)}.then is not a function at todocontainer.js:97
+			body: JSON.stringify([""]),
+			headers: { "Content-type": "application/json" }
+		})
+			.then(response => response.json()) // convert to json
+			.then(data => {
+				//dentro del elemento que se devuelve generamos fetch:post
+				fetch(
+					"https://assets.breatheco.de/apis/fake/todos/user/nitlara",
+					{
+						method: "POST",
+						body: JSON.stringify([""]),
+						headers: { "Content-type": "application/json" }
+						// convert to json
+					}
+				)
+					.then(response => response.json())
+					.then(data => console.log(data))
+					.catch(err => {
+						console.log("Request Failed", err);
+					});
 			})
 			.catch(err => {
 				console.log("Request Failed", err);
