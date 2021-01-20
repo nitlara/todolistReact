@@ -24,7 +24,7 @@ export let ToDoContainer = () => {
 		event.preventDefault();
 		var taskElement = { label: task, done: false };
 		setArrayTasks([taskElement, ...arrayTasks]);
-		modifyList([taskElement, ...arrayTasks]); //no carga todos los elemetnos, le queda pendiente el último.
+		modifyList([taskElement, ...arrayTasks]); ////////////ERROR /////////// no carga todos los elemetnos, le queda pendiente el último.
 		setTask("");
 	};
 	var resultArray = [];
@@ -37,10 +37,7 @@ export let ToDoContainer = () => {
 			modifyList([...resultArray]);
 		}
 		if (resultArray.length === 0) {
-			resultArray.push("All tasks are done");
-			console.log("resultArraypush" + resultArray);
-			//resultArray.splice(index, 1);
-			setArrayTasks([...resultArray]);
+			resultArray.splice(index, 1);
 			deleteList();
 		}
 	};
