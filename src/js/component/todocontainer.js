@@ -78,10 +78,8 @@ export let ToDoContainer = () => {
 	};
 	//API eliminar lista.
 	const deleteList = () => {
-		//tener preparado un put, un delete+post, put con mensaje a 0
-
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara", {
-			method: "DELETE", ////////////////////////////////////////////ERROR CONSOLA: Request Failed TypeError: {(intermediate value)}.then is not a function at todocontainer.js:97
+			method: "DELETE", 
 			body: JSON.stringify([""]),
 			headers: { "Content-type": "application/json" }
 		})
