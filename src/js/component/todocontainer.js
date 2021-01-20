@@ -91,7 +91,19 @@ export let ToDoContainer = () => {
 					// convert to json
 				})
 					.then(response => response.json())
-					.then(data => console.log(data))
+					.then(
+						data =>
+							fetch(
+								"https://assets.breatheco.de/apis/fake/todos/user/nit3"
+							)
+								.then(response => response.json()) // convert to json
+								.then(data => {
+									setArrayTasks(data);
+								})
+								.catch(err =>
+									console.log("Request Failed", err)
+								) // Catch errors //aquí también podria venir la generación de la lista.
+					)
 					.catch(err => {
 						console.log("Request Failed", err);
 					});
