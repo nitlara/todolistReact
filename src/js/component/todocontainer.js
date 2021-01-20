@@ -22,9 +22,9 @@ export let ToDoContainer = () => {
 	//Funcion creacion de array con "task"
 	const handleKeyPress = event => {
 		event.preventDefault();
-		var taskElement = { label: task, done: false };
-		setArrayTasks([taskElement, ...arrayTasks]);
-		modifyList([taskElement, ...arrayTasks]); ////////////ERROR /////////// no carga todos los elemetnos, le queda pendiente el último.
+		arrayTasks = arrayTasks.concat([{ label: task, done: false }]);
+		setArrayTasks(arrayTasks);
+		modifyList([arrayTasks]);
 		setTask("");
 	};
 	var resultArray = [];
@@ -79,7 +79,7 @@ export let ToDoContainer = () => {
 	//API eliminar lista.
 	const deleteList = () => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara", {
-			method: "DELETE", 
+			method: "DELETE",
 			body: JSON.stringify([""]),
 			headers: { "Content-type": "application/json" }
 		})
