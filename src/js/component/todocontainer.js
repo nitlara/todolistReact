@@ -11,7 +11,7 @@ export let ToDoContainer = () => {
 	//FETCH --> GET --> Get devuelve a (data) los datos que descarga de API con este usuario y los manda a setArrayTasks
 	// setArrayTasks actualiza (useState) el array de tareas.
 	useEffect(function() {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara")
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/nit3")
 			.then(response => response.json()) // convert to json
 			.then(data => {
 				setArrayTasks(data);
@@ -42,11 +42,9 @@ export let ToDoContainer = () => {
 		}
 	};
 	//Elimina todos los elementos visibles
-	const removeAllElements = index => {
-		//resultArray = arrayTasks;
-		resultArray = [""];
-		setArrayTasks([...resultArray]);
-		deleteList([]);
+	const removeAllElements = () => {
+		setArrayTasks([]);
+		deleteList();
 	};
 	//map para recorrer el array
 	const listOfTasks = arrayTasks.map((element, index) => {
@@ -63,7 +61,7 @@ export let ToDoContainer = () => {
 	});
 	//API añadir lista.
 	const modifyList = () => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara", {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/nit3", {
 			method: "PUT",
 			body: JSON.stringify(arrayTasks),
 			headers: { "Content-type": "application/json" }
@@ -78,7 +76,7 @@ export let ToDoContainer = () => {
 	};
 	//API eliminar lista.
 	const deleteList = () => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/nitlara", {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/nit3", {
 			method: "DELETE",
 			body: JSON.stringify([""]),
 			headers: { "Content-type": "application/json" }
@@ -86,15 +84,12 @@ export let ToDoContainer = () => {
 			.then(response => response.json()) // convert to json
 			.then(data => {
 				//dentro del elemento que se devuelve generamos fetch:post
-				fetch(
-					"https://assets.breatheco.de/apis/fake/todos/user/nitlara",
-					{
-						method: "POST",
-						body: JSON.stringify([""]),
-						headers: { "Content-type": "application/json" }
-						// convert to json
-					}
-				)
+				fetch("https://assets.breatheco.de/apis/fake/todos/user/nit3", {
+					method: "POST",
+					body: JSON.stringify([""]),
+					headers: { "Content-type": "application/json" }
+					// convert to json
+				})
 					.then(response => response.json())
 					.then(data => console.log(data))
 					.catch(err => {
